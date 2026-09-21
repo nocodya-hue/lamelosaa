@@ -83,7 +83,7 @@ address{font-style:normal}
 .stage__gl{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .stage__fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;z-index:0}
 html.gl .stage__fallback{display:none}
-.stage__grain{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+.stage__grain{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 .step{position:absolute;inset:0;z-index:2;padding:0 var(--gut);opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
@@ -152,7 +152,7 @@ html.gl .stage__fallback{display:none}
 .boinas__head h2{font:900 var(--t-h1)/.82 var(--f-display);text-transform:uppercase;color:var(--hueso)}
 .boinas__head p{max-width:36ch;color:var(--cream)}
 .boinas__viewport{overflow-x:auto;scroll-snap-type:x mandatory;padding:var(--s3) 0 var(--s5);-webkit-overflow-scrolling:touch}
-.boinas__track{display:flex;gap:clamp(1rem,2.4vw,2.4rem);padding:0 var(--gut);width:max-content;align-items:center}
+.boinas__track{will-change:transform;display:flex;gap:clamp(1rem,2.4vw,2.4rem);padding:0 var(--gut);width:max-content;align-items:center}
 .boina{position:relative;flex:none;width:min(80vw,440px);scroll-snap-align:center;display:grid;grid-template-rows:minmax(0,1.15fr) auto;color:var(--ink);min-height:min(70svh,660px)}
 .boina:nth-child(odd){transform:rotate(-1.2deg)}
 .boina:nth-child(even){transform:rotate(1deg) translateY(1.5rem)}
@@ -361,3 +361,5 @@ html.gl .stage__fallback{display:none}
 .step--4{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:var(--s2);padding-bottom:clamp(2rem,8vh,5rem)}
 .step__cta{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;margin-top:var(--s2)}
 @media (max-width:700px){.step--4 .step__title--big{font-size:min(var(--t-h1),16vh)}}
+
+.stage__fallback:not([src]){visibility:hidden}

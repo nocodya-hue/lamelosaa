@@ -19,10 +19,12 @@
 <meta name="twitter:image" content="img/ig-tortilla-top.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23141210'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23F7B928'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Kaushan+Script&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Kaushan+Script&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script>if("scrollRestoration" in history){history.scrollRestoration="manual"}addEventListener("pageshow",function(){if(!location.hash){scrollTo(0,0)}});</script>
-<link rel="stylesheet" href="css/style.css?v=tx4">
+<link rel="stylesheet" href="css/style.css?v=p1">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -82,7 +84,8 @@
 <!-- ESCENA 3D: hero + anatomía + vuelta -->
 <section class="stage" id="anatomia" aria-label="La boina: hamburguesa de tortilla">
   <div class="stage__sticky">
-    <img class="stage__fallback" src="img/ig-tortilla-top.jpg" alt="Tortilla de patatas melosa de La Melosa" width="732" height="1300" fetchpriority="high">
+    <img class="stage__fallback" data-src="img/ig-tortilla-top.jpg" alt="Tortilla de patatas melosa de La Melosa" width="732" height="1300" decoding="async">
+    <noscript><img class="stage__fallback" src="img/ig-tortilla-top.jpg" alt="Tortilla de patatas melosa de La Melosa" width="732" height="1300"></noscript>
     <div class="stage__grain" aria-hidden="true"></div>
 
     <div class="step step--1 on">
@@ -145,8 +148,8 @@
 <!-- LA MELOSA -->
 <section class="melosa eggs" id="melosa" aria-labelledby="melosa-t">
   <div class="melosa__photos">
-    <img class="m1" data-speed="0.1" src="img/ig-melosa-corte.jpg" alt="Porción de tortilla melosa con el interior cremoso" width="1300" height="858" loading="lazy">
-    <img class="m2" data-speed="-0.2" src="img/ig-heart.jpg" alt="Cocinero de La Melosa con el pañuelo de huevos fritos sujetando una croqueta en forma de corazón" width="975" height="1300" loading="lazy">
+    <img class="m1" data-speed="0.1" src="img/ig-melosa-corte.jpg" alt="Porción de tortilla melosa con el interior cremoso" width="1300" height="858" loading="lazy" decoding="async">
+    <img class="m2" data-speed="-0.2" src="img/ig-heart.jpg" alt="Cocinero de La Melosa con el pañuelo de huevos fritos sujetando una croqueta en forma de corazón" width="975" height="1300" loading="lazy" decoding="async">
   </div>
   <div class="melosa__copy">
     <h2 id="melosa-t">Se hace<br><em>al momento.</em></h2>
@@ -179,7 +182,7 @@
   <div class="boinas__viewport" id="hz">
     <ul class="boinas__track" role="list">
       <li class="boina boina--yolk">
-        <div class="boina__photo"><img src="img/cm-tortilla-plato.jpg" alt="Tortilla de patata La Melosa servida sobre un plato" width="1231" height="1300" loading="lazy"></div>
+        <div class="boina__photo"><img src="img/cm-tortilla-plato.jpg" alt="Tortilla de patata La Melosa servida sobre un plato" width="1231" height="1300" loading="lazy" decoding="async"></div>
         <p class="boina__price">12,90 €</p>
         <div class="boina__body">
           <h3>La Melosa</h3>
@@ -188,7 +191,7 @@
         </div>
       </li>
       <li class="boina boina--ink">
-        <div class="boina__photo"><img src="img/cm-allipebre.jpg" alt="Porción de La All i pebre con el interior cremoso" width="975" height="1300" loading="lazy"></div>
+        <div class="boina__photo"><img src="img/cm-allipebre.jpg" alt="Porción de La All i pebre con el interior cremoso" width="975" height="1300" loading="lazy" decoding="async"></div>
         <p class="boina__flag">Subcampeona CV</p><p class="boina__price">21,00 €</p>
         <div class="boina__body">
           <h3>La All i pebre</h3>
@@ -197,7 +200,7 @@
         </div>
       </li>
       <li class="boina boina--brava">
-        <div class="boina__photo"><img src="img/cm-iberica.jpg" alt="La Ibérica: tortilla melosa con tomate confitado y tomillo" width="1300" height="975" loading="lazy"></div>
+        <div class="boina__photo"><img src="img/cm-iberica.jpg" alt="La Ibérica: tortilla melosa con tomate confitado y tomillo" width="1300" height="975" loading="lazy" decoding="async"></div>
         <p class="boina__price">16,00 €</p>
         <div class="boina__body">
           <h3>La Ibérica</h3>
@@ -206,7 +209,7 @@
         </div>
       </li>
       <li class="boina boina--cream">
-        <div class="boina__photo"><img src="img/cm-pulpo.jpg" alt="Pulpo a la gallega" width="975" height="1300" loading="lazy"></div>
+        <div class="boina__photo"><img src="img/cm-pulpo.jpg" alt="Pulpo a la gallega" width="975" height="1300" loading="lazy" decoding="async"></div>
         <p class="boina__price">25,00 €</p>
         <div class="boina__body">
           <h3>La del Pulpo</h3>
@@ -215,7 +218,7 @@
         </div>
       </li>
       <li class="boina boina--yolk">
-        <div class="boina__photo"><img src="img/ig-boina-fresa.jpg" alt="Melosito de tortilla con pico de gallo y crema de aguacate" width="731" height="1300" loading="lazy"></div>
+        <div class="boina__photo"><img src="img/ig-boina-fresa.jpg" alt="Melosito de tortilla con pico de gallo y crema de aguacate" width="731" height="1300" loading="lazy" decoding="async"></div>
         <p class="boina__price">7 / 9 €</p>
         <div class="boina__body">
           <h3>Los Melositos</h3>
@@ -239,13 +242,13 @@
 <section class="ademas" id="menu" aria-labelledby="ademas-t">
   <h2 id="ademas-t">La carta,<br>sin rodeos.</h2>
   <ul class="menu" id="menu-list">
-    <li data-img="img/ig-postre.jpg"><h3>Menú degustación</h3><div class="menu__body"><p>Un recorrido por la carta sin tener que elegir. Empieza por la melosa de all i pebre. Solo con reserva.</p></div><img src="img/ig-postre.jpg" alt="Postre emplatado del menú degustación" width="975" height="1300" loading="lazy"></li>
-    <li data-img="img/cm-croquetas.jpg"><h3>Para empezar</h3><div class="menu__body"><ul class="items"><li><span>Ostras: francesa, mignonette o picante</span><i></i><b>3,50 c/u</b></li><li><span>Trío de ostras</span><i></i><b>9,00</b></li><li><span>Gildas: pastrami, cherry, anchoa, jamón y queso…</span><i></i><b>desde 3,00</b></li><li><span>Croquetas: jamón, pato, gambas o secreto con manzana</span><i></i><b>3,00 c/u</b></li><li><span>4 croquetas variadas</span><i></i><b>10,90</b></li></ul></div><img src="img/cm-croquetas.jpg" alt="Croquetas caseras servidas en una huevera" width="1040" height="1300" loading="lazy"></li>
-    <li data-img="img/cm-ensaladilla.jpg"><h3>Para compartir</h3><div class="menu__body"><ul class="items"><li><span>Ensaladilla de bonito del norte con espuma de piparras</span><i></i><b>11,00</b></li><li><span>Rabas de calamar</span><i></i><b>21,00</b></li><li><span>Bocartes</span><i></i><b>13,90</b></li><li><span>Camembert al horno con tomillo y miel</span><i></i><b>12,90</b></li><li><span>Carpaccio de ternera Wagyu con Idiazábal</span><i></i><b>14,90</b></li><li><span>Morcilla de Burgos con manzana caramelizada</span><i></i><b>13,90</b></li><li><span>Pata de pulpo sobre patatas panaderas</span><i></i><b>21,00</b></li><li><span>Pan con tomate y ajoaceite</span><i></i><b>6,00</b></li></ul></div><img src="img/cm-ensaladilla.jpg" alt="Ensaladilla de bonito del norte" width="937" height="1300" loading="lazy"></li>
-    <li data-img="img/cm-dos-tortillas.jpg"><h3>Melosas</h3><div class="menu__body"><ul class="items"><li><span>La Melosa, tortilla clásica</span><i></i><b>12,90</b></li><li><span>Con cobertura: Cotilla, Cojonuda, Desmechada, Ibérica, del Norte, Dron de Txistorras</span><i></i><b>16,00</b></li><li><span>La All i pebre</span><i></i><b>21,00</b></li><li><span>La del Pulpo</span><i></i><b>25,00</b></li><li><span>Melosito clásico</span><i></i><b>7,00</b></li><li><span>Melosito con cobertura</span><i></i><b>9,00</b></li></ul></div><img src="img/cm-dos-tortillas.jpg" alt="Dos tortillas melosas sobre un plato" width="975" height="1300" loading="lazy"></li>
-    <li data-img="img/ig-plato.jpg"><h3>Carnes</h3><div class="menu__body"><ul class="items"><li><span>Cachopo clásico: jamón ibérico y queso de Oscos</span><i></i><b>27,00</b></li><li><span>Cachopo cabrales: chorizo y cabrales</span><i></i><b>27,00</b></li><li><span>Cachopo de foie y cebolla caramelizada</span><i></i><b>27,00</b></li><li><span>Trío de minicachopos</span><i></i><b>25,00</b></li><li><span>Txuleta de tudanca, 250 g</span><i></i><b>39,00</b></li></ul></div><img src="img/ig-plato.jpg" alt="Plato de carne de la carta" width="731" height="1300" loading="lazy"></li>
-    <li data-img="img/ig-cheesecake.jpg"><h3>Postres</h3><div class="menu__body"><ul class="items"><li><span>Basque cheesecake: clásica, café y cacao, caramelo salado o pistacho</span><i></i><b>8,50</b></li><li><span>Torrija valenciana con sorbete de horchata</span><i></i><b>7,00</b></li><li><span>Pain et chocolat</span><i></i><b>7,00</b></li><li><span>Helado artesano o sorbete natural</span><i></i><b>5,50</b></li></ul></div><img src="img/ig-cheesecake.jpg" alt="Cheesecake casera de La Melosa" width="732" height="1300" loading="lazy"></li>
-    <li data-img="img/cm-local.jpg"><h3>Para beber</h3><div class="menu__body"><ul class="items"><li><span>Culín de sidra natural asturiana Trabanco</span><i></i><b>2,00</b></li><li><span>Estrella Galicia</span><i></i><b>2,20</b></li><li><span>Vermut gallego Rivera, vaso</span><i></i><b>3,80</b></li><li><span>Copa de vino o de cava</span><i></i><b>desde 4,50</b></li><li><span>Refrescos y agua</span><i></i><b>2,50</b></li></ul></div><img src="img/cm-local.jpg" alt="Interior de La Melosa con lámparas de fibra natural" width="975" height="1300" loading="lazy"></li>
+    <li data-img="img/ig-postre.jpg"><h3>Menú degustación</h3><div class="menu__body"><p>Un recorrido por la carta sin tener que elegir. Empieza por la melosa de all i pebre. Solo con reserva.</p></div><img src="img/ig-postre.jpg" alt="Postre emplatado del menú degustación" width="975" height="1300" loading="lazy" decoding="async"></li>
+    <li data-img="img/cm-croquetas.jpg"><h3>Para empezar</h3><div class="menu__body"><ul class="items"><li><span>Ostras: francesa, mignonette o picante</span><i></i><b>3,50 c/u</b></li><li><span>Trío de ostras</span><i></i><b>9,00</b></li><li><span>Gildas: pastrami, cherry, anchoa, jamón y queso…</span><i></i><b>desde 3,00</b></li><li><span>Croquetas: jamón, pato, gambas o secreto con manzana</span><i></i><b>3,00 c/u</b></li><li><span>4 croquetas variadas</span><i></i><b>10,90</b></li></ul></div><img src="img/cm-croquetas.jpg" alt="Croquetas caseras servidas en una huevera" width="1040" height="1300" loading="lazy" decoding="async"></li>
+    <li data-img="img/cm-ensaladilla.jpg"><h3>Para compartir</h3><div class="menu__body"><ul class="items"><li><span>Ensaladilla de bonito del norte con espuma de piparras</span><i></i><b>11,00</b></li><li><span>Rabas de calamar</span><i></i><b>21,00</b></li><li><span>Bocartes</span><i></i><b>13,90</b></li><li><span>Camembert al horno con tomillo y miel</span><i></i><b>12,90</b></li><li><span>Carpaccio de ternera Wagyu con Idiazábal</span><i></i><b>14,90</b></li><li><span>Morcilla de Burgos con manzana caramelizada</span><i></i><b>13,90</b></li><li><span>Pata de pulpo sobre patatas panaderas</span><i></i><b>21,00</b></li><li><span>Pan con tomate y ajoaceite</span><i></i><b>6,00</b></li></ul></div><img src="img/cm-ensaladilla.jpg" alt="Ensaladilla de bonito del norte" width="937" height="1300" loading="lazy" decoding="async"></li>
+    <li data-img="img/cm-dos-tortillas.jpg"><h3>Melosas</h3><div class="menu__body"><ul class="items"><li><span>La Melosa, tortilla clásica</span><i></i><b>12,90</b></li><li><span>Con cobertura: Cotilla, Cojonuda, Desmechada, Ibérica, del Norte, Dron de Txistorras</span><i></i><b>16,00</b></li><li><span>La All i pebre</span><i></i><b>21,00</b></li><li><span>La del Pulpo</span><i></i><b>25,00</b></li><li><span>Melosito clásico</span><i></i><b>7,00</b></li><li><span>Melosito con cobertura</span><i></i><b>9,00</b></li></ul></div><img src="img/cm-dos-tortillas.jpg" alt="Dos tortillas melosas sobre un plato" width="975" height="1300" loading="lazy" decoding="async"></li>
+    <li data-img="img/ig-plato.jpg"><h3>Carnes</h3><div class="menu__body"><ul class="items"><li><span>Cachopo clásico: jamón ibérico y queso de Oscos</span><i></i><b>27,00</b></li><li><span>Cachopo cabrales: chorizo y cabrales</span><i></i><b>27,00</b></li><li><span>Cachopo de foie y cebolla caramelizada</span><i></i><b>27,00</b></li><li><span>Trío de minicachopos</span><i></i><b>25,00</b></li><li><span>Txuleta de tudanca, 250 g</span><i></i><b>39,00</b></li></ul></div><img src="img/ig-plato.jpg" alt="Plato de carne de la carta" width="731" height="1300" loading="lazy" decoding="async"></li>
+    <li data-img="img/ig-cheesecake.jpg"><h3>Postres</h3><div class="menu__body"><ul class="items"><li><span>Basque cheesecake: clásica, café y cacao, caramelo salado o pistacho</span><i></i><b>8,50</b></li><li><span>Torrija valenciana con sorbete de horchata</span><i></i><b>7,00</b></li><li><span>Pain et chocolat</span><i></i><b>7,00</b></li><li><span>Helado artesano o sorbete natural</span><i></i><b>5,50</b></li></ul></div><img src="img/ig-cheesecake.jpg" alt="Cheesecake casera de La Melosa" width="732" height="1300" loading="lazy" decoding="async"></li>
+    <li data-img="img/cm-local.jpg"><h3>Para beber</h3><div class="menu__body"><ul class="items"><li><span>Culín de sidra natural asturiana Trabanco</span><i></i><b>2,00</b></li><li><span>Estrella Galicia</span><i></i><b>2,20</b></li><li><span>Vermut gallego Rivera, vaso</span><i></i><b>3,80</b></li><li><span>Copa de vino o de cava</span><i></i><b>desde 4,50</b></li><li><span>Refrescos y agua</span><i></i><b>2,50</b></li></ul></div><img src="img/cm-local.jpg" alt="Interior de La Melosa con lámparas de fibra natural" width="975" height="1300" loading="lazy" decoding="async"></li>
   </ul>
   <p class="carta__more"><a class="link-arrow" href="https://r.qamarero.com/la-melosa-valencia" target="_blank" rel="noopener">Carta completa: vinos, despensa, cafés y más</a></p>
   <div class="menu__peek" id="peek" aria-hidden="true"><img alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="733" height="1100"></div>
@@ -254,8 +257,8 @@
 <!-- CASA -->
 <section class="casa eggs" id="casa" aria-labelledby="casa-t">
   <div class="casa__photos" aria-hidden="true">
-    <img class="p p1" data-speed="-0.12" src="img/ig-chef-vuelta.jpg" alt="" width="732" height="1300" loading="lazy">
-    <img class="p p2" data-speed="0.18" src="img/ig-chef-sirve.jpg" alt="" width="732" height="1300" loading="lazy">
+    <img class="p p1" data-speed="-0.12" src="img/ig-chef-vuelta.jpg" alt="" width="732" height="1300" loading="lazy" decoding="async">
+    <img class="p p2" data-speed="0.18" src="img/ig-chef-sirve.jpg" alt="" width="732" height="1300" loading="lazy" decoding="async">
   </div>
   <blockquote class="casa__quote">
     <p id="casa-t">Tortilla es casa.<br>Es compartir.<br><span>Es mamá llamando a comer.</span></p>
@@ -278,7 +281,7 @@
     <div>
       <h2 id="donde-t">Ven,<br>que se enfría.</h2>
       <a class="btn btn--xl" href="https://restaurante.covermanager.com/la-melosa-valencia/" target="_blank" rel="noopener">Reservar mesa</a>
-      <img class="donde__img" src="img/cm-local.jpg" alt="Interior de La Melosa con lámparas de fibra y mesas de madera" width="975" height="1300" loading="lazy">
+      <img class="donde__img" src="img/cm-local.jpg" alt="Interior de La Melosa con lámparas de fibra y mesas de madera" width="975" height="1300" loading="lazy" decoding="async">
     </div>
     <div class="donde__info">
       <address>
@@ -301,17 +304,17 @@
 </main>
 
 <footer class="foot">
-  <div class="wordmark wordmark--foot" aria-hidden="true"><img src="img/logo-melosa.png" alt="" width="1200" height="485" loading="lazy"></div>
+  <div class="wordmark wordmark--foot" aria-hidden="true"><img src="img/logo-melosa.png" alt="" width="1200" height="485" loading="lazy" decoding="async"></div>
   <p class="foot__small">© La Melosa · Calle Alboraya, 72 · Valencia. Fotos: La Melosa.</p>
 </footer>
 
 <a class="sticky-cta" href="https://restaurante.covermanager.com/la-melosa-valencia/" target="_blank" rel="noopener">Reservar mesa</a>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="js/inline-assets.js?v=tx4"></script>
-<script src="js/main.js?v=tx4"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>if(location.protocol==='file:'){document.write('<script src="js/inline-assets.js?v=p1"><\/script>')}</script>
+<script defer src="js/main.js?v=p1"></script>
 </body>
 </html>

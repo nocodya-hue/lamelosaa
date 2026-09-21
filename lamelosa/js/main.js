@@ -99,7 +99,7 @@
     })();
     scene.add(new THREE.AmbientLight(0xffe0b0, 0.12));
     const key = new THREE.DirectionalLight(0xffe2b8, 1.1); key.position.set(3, 6, 5);
-    key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+    key.castShadow = true; key.shadow.mapSize.set(1024, 1024);
     Object.assign(key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 20 });
     key.shadow.bias = -0.0006; key.shadow.normalBias = 0.03; key.shadow.radius = 5;
     scene.add(key);
@@ -290,6 +290,7 @@
       const dc = document.createElement('canvas'); dc.width = 1200; dc.height = 485;
       dc.getContext('2d').drawImage(logoImg, 0, 0, 1200, 485);
       decalTex.image = dc; decalTex.needsUpdate = true;
+      if (renderer.initTexture) { renderer.initTexture(lidTex); renderer.initTexture(decalTex); }
     };
     logoImg.src = ASSETS.logo || 'img/logo-melosa.png';
 
@@ -332,11 +333,12 @@
     })();
 
     /* ---- viewport ---- */
+    let quality = 0;            // 0 = alta, 1 = resolución reducida, 2 = sin sombras
     let W = 0, H = 0, portrait = false, dpr = 1;
     const resize = () => {
       const r = canvas.getBoundingClientRect();
       W = Math.max(1, r.width); H = Math.max(1, r.height);
-      dpr = Math.min(devicePixelRatio || 1, W < 700 ? 1.5 : 2);
+      dpr = Math.min(devicePixelRatio || 1, quality >= 1 ? 1 : (W < 700 ? 1.25 : 1.5));
       renderer.setPixelRatio(dpr);
       renderer.setSize(W, H, false);
       camera.aspect = W / H; camera.updateProjectionMatrix();
@@ -357,7 +359,12 @@
 
     const frame = now => {
       if (!visible && !reduce) return;
-      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const raw = now - last;
+      const dt = Math.min(0.05, raw / 1000); last = now;
+      if (!reduce && typeof lowerQuality === 'function' && quality < 2 && raw > 0 && raw < 500) {
+        ema = ema * 0.94 + raw * 0.06; frames++;
+        if (frames > 120 && ema > 27) lowerQuality();
+      }
       const t = (now - t0) / 1000;
       P += (target - P) * (1 - Math.exp(-dt * 6));
       if (reduce) P = 0;
@@ -438,11 +445,42 @@
       renderer.render(scene, camera);
     };
 
+    /* precalentamiento: compila todos los materiales (también los de la caja) y sube las texturas */
+    (() => {
+      const wasBox = box.visible; box.visible = true;
+      try { renderer.compile(scene, camera); } catch (e) {}
+      const seen = new Set();
+      scene.traverse(o => {
+        if (!o.material) return;
+        (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => {
+          ['map', 'normalMap', 'bumpMap'].forEach(k => { const t = m[k]; if (t && !seen.has(t)) { seen.add(t); if (renderer.initTexture) renderer.initTexture(t); } });
+        });
+      });
+      box.visible = wasBox;
+    })();
+
+    /* calidad adaptativa: si va lento, baja resolución y luego quita sombras */
+    let ema = 16.7, frames = 0;
+    const lowerQuality = () => {
+      quality++;
+      if (quality >= 1) resize();
+      if (quality >= 2) {
+        key.castShadow = false; renderer.shadowMap.enabled = false; ground.visible = false;
+        scene.traverse(o => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { m.needsUpdate = true; }); });
+      }
+      frames = 0; ema = 16.7;
+    };
+
     if (reduce) { frame(performance.now() + 100); addEventListener('resize', () => frame(performance.now() + 100)); }
     else if (hasGsap) gsap.ticker.add(() => frame(performance.now()));
     else (function loop(n) { frame(n); requestAnimationFrame(loop); })(0);
     return { renderer };
   })();
+
+  if (!document.documentElement.classList.contains('gl')) {
+    const fb = $('.stage__fallback[data-src]');
+    if (fb) fb.src = fb.dataset.src;
+  }
 
   if (!hasGsap) return;
 
