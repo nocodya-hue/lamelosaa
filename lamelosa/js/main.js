@@ -35,7 +35,8 @@
   const onScroll = () => {
     const y = scrollY;
     nav.classList.toggle('solid', y > 40);
-    sticky.classList.toggle('on', y > innerHeight * 1.1);
+    const st = document.getElementById('anatomia');
+    sticky.classList.toggle('on', st ? y > st.offsetTop + st.offsetHeight - innerHeight * 1.15 : y > innerHeight);
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
@@ -62,7 +63,10 @@
   }
 
   /* ---------- THREE ---------- */
-  const scene3d = (() => {
+  /* modo ligero en teléfonos: texturas más pequeñas y menos partículas */
+  const LITE = innerWidth < 700 || matchMedia('(pointer:coarse)').matches;
+  const K = LITE ? 0.5 : 1;
+  const initScene = () => {
     if (typeof THREE === 'undefined') return null;
     const ASSETS = window.MELOSA_ASSETS || {};
     const canvas = $('#gl');
@@ -75,7 +79,7 @@
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.95;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = LITE ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
@@ -83,8 +87,8 @@
 
     /* ---- iluminación de estudio: entorno con softboxes para reflejos reales ---- */
     (() => {
-      const c = document.createElement('canvas'); c.width = 1024; c.height = 512;
-      const x = c.getContext('2d');
+      const c = document.createElement('canvas'); c.width = 1024 * K; c.height = 512 * K;
+      const x = c.getContext('2d'); x.scale(K, K);
       const g = x.createLinearGradient(0, 0, 0, 512);
       g.addColorStop(0, '#3b2a18'); g.addColorStop(.5, '#170f09'); g.addColorStop(1, '#0a0605');
       x.fillStyle = g; x.fillRect(0, 0, 1024, 512);
@@ -99,7 +103,7 @@
     })();
     scene.add(new THREE.AmbientLight(0xffe0b0, 0.12));
     const key = new THREE.DirectionalLight(0xffe2b8, 1.1); key.position.set(3, 6, 5);
-    key.castShadow = true; key.shadow.mapSize.set(1024, 1024);
+    key.castShadow = true; key.shadow.mapSize.set(LITE ? 512 : 1024, LITE ? 512 : 1024);
     Object.assign(key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 20 });
     key.shadow.bias = -0.0006; key.shadow.normalBias = 0.03; key.shadow.radius = 5;
     scene.add(key);
@@ -118,15 +122,15 @@
       }
       ctx.globalAlpha = 1;
     };
-    const heightCanvas = (n, w = 512) => {
+    const heightCanvas = (n, w = 512 * K) => {
       const c = document.createElement('canvas'); c.width = c.height = w;
       const x = c.getContext('2d'); x.fillStyle = '#808080'; x.fillRect(0, 0, w, w);
-      speckle(x, w, w, n, ['#404040', '#c0c0c0', '#707070', '#a0a0a0'], 5); return c;
+      speckle(x, w, w, Math.round(n * K * K), ['#404040', '#c0c0c0', '#707070', '#a0a0a0'], 5 * K); return c;
     };
-    const noiseTex = (n, w = 256) => {
+    const noiseTex = (n, w = 256 * K) => {
       const c = document.createElement('canvas'); c.width = c.height = w;
       const x = c.getContext('2d'); x.fillStyle = '#808080'; x.fillRect(0, 0, w, w);
-      speckle(x, w, w, n, ['#303030', '#d0d0d0', '#606060'], 2.4);
+      speckle(x, w, w, Math.round(n * K * K), ['#303030', '#d0d0d0', '#606060'], 2.4 * K);
       const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
     };
     const normalFrom = (src, strength = 2, repeat = false) => {
@@ -145,16 +149,16 @@
       return t;
     };
     const bunCanvas = (base, dark) => {
-      const c = document.createElement('canvas'); c.width = c.height = 512;
-      const x = c.getContext('2d');
+      const c = document.createElement('canvas'); c.width = c.height = 512 * K;
+      const x = c.getContext('2d'); x.scale(K, K);
       const g = x.createLinearGradient(0, 0, 0, 512);
       g.addColorStop(0, dark); g.addColorStop(0.35, base); g.addColorStop(0.75, '#efc677'); g.addColorStop(1, '#f2d597');
       x.fillStyle = g; x.fillRect(0, 0, 512, 512);
       speckle(x, 512, 512, 1800, [dark, '#fff2c8', base], 3);
       const t = sRGB(new THREE.CanvasTexture(c)); t.wrapS = THREE.RepeatWrapping; return t;
     };
-    const sideC = document.createElement('canvas'); sideC.width = 1024; sideC.height = 128;
-    const sideX = sideC.getContext('2d');
+    const sideC = document.createElement('canvas'); sideC.width = 1024 * K; sideC.height = 128 * K;
+    const sideX = sideC.getContext('2d'); sideX.scale(K, K);
     (() => {
       const g = sideX.createLinearGradient(0, 0, 0, 128);
       g.addColorStop(0, '#9a5a12'); g.addColorStop(.25, '#dfa23a'); g.addColorStop(.6, '#efc25a'); g.addColorStop(1, '#a8631a');
@@ -239,7 +243,7 @@
     const topBun = new THREE.Mesh(lathe(dome), topMat);
     /* sésamo sobre la cúpula */
     (() => {
-      const N = 90, im = new THREE.InstancedMesh(new THREE.SphereGeometry(0.038, 10, 8), sesameMat, N);
+      const N = LITE ? 40 : 90, im = new THREE.InstancedMesh(new THREE.SphereGeometry(0.038, 10, 8), sesameMat, N);
       const d = new THREE.Object3D(), up = new THREE.Vector3(0, 1, 0), n = new THREE.Vector3();
       for (let i = 0; i < N; i++) {
         const t = 0.25 + Math.random() * 1.15, ph = Math.random() * Math.PI * 2;
@@ -324,7 +328,7 @@
       const x = c.getContext('2d'); const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
       g.addColorStop(0, 'rgba(255,240,215,.9)'); g.addColorStop(1, 'rgba(255,240,215,0)');
       x.fillStyle = g; x.fillRect(0, 0, 64, 64);
-      const N = 34, pos = new Float32Array(N * 3), seed = [];
+      const N = LITE ? 16 : 34, pos = new Float32Array(N * 3), seed = [];
       for (let i = 0; i < N; i++) { seed.push({ x: (Math.random() - .5) * 1.4, z: (Math.random() - .5) * 1.0, p: Math.random() }); }
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       const mat = new THREE.PointsMaterial({ map: new THREE.CanvasTexture(c), size: 0.7, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, color: 0xffd9a8 });
@@ -338,11 +342,12 @@
     const resize = () => {
       const r = canvas.getBoundingClientRect();
       W = Math.max(1, r.width); H = Math.max(1, r.height);
-      dpr = Math.min(devicePixelRatio || 1, quality >= 1 ? 1 : (W < 700 ? 1.25 : 1.5));
+      dpr = Math.min(devicePixelRatio || 1, quality >= 1 ? 1 : (W < 700 ? 1.15 : 1.5));
       renderer.setPixelRatio(dpr);
       renderer.setSize(W, H, false);
       camera.aspect = W / H; camera.updateProjectionMatrix();
       portrait = W / H < 0.85;
+      if (!portrait) camera.clearViewOffset();
     };
     resize(); addEventListener('resize', resize);
 
@@ -384,8 +389,14 @@
       const s = lerp(lerp(heroS, expS, E), endS, e2 * (1 - E)) * intro;
       rig.scale.setScalar(Math.max(0.001, s));
       const sideX = portrait ? 0 : lerp(lerp(2.15, 0, e1), 1.9, e2);
-      const baseY = portrait ? lerp(-0.5, -0.55, E) : -0.5 * E;
-      rig.position.set(sideX, portrait ? lerp(baseY, 0.95, e2) : baseY, 0);
+      const baseY = portrait ? 0 : -0.5 * E;
+      rig.position.set(sideX, baseY, 0);
+      if (portrait) {
+        /* centro vertical del objeto (fracción de pantalla): texto arriba, 3D abajo; en la caja final, 3D arriba y texto abajo */
+        const short = H < 700;
+        const cyv = lerp(lerp(lerp(short ? 0.7 : 0.63, short ? 0.72 : 0.7, e1), short ? 0.66 : 0.62, e2), short ? 0.33 : 0.36, sstep(0.86, 0.93, P));
+        camera.setViewOffset(W, H, 0, -(cyv - 0.5) * H, W, H);
+      }
 
       mouse.sx += (mouse.x - mouse.sx) * 0.06; mouse.sy += (mouse.y - mouse.sy) * 0.06;
       let tilt = lerp(0.9, 0.3, E); tilt = lerp(tilt, 1.02, C);
@@ -471,15 +482,26 @@
       frames = 0; ema = 16.7;
     };
 
+    requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('gl-ready')));
+
     if (reduce) { frame(performance.now() + 100); addEventListener('resize', () => frame(performance.now() + 100)); }
     else if (hasGsap) gsap.ticker.add(() => frame(performance.now()));
     else (function loop(n) { frame(n); requestAnimationFrame(loop); })(0);
     return { renderer };
-  })();
+  };
 
-  if (!document.documentElement.classList.contains('gl')) {
+  const showFallback = () => {
     const fb = $('.stage__fallback[data-src]');
     if (fb) fb.src = fb.dataset.src;
+  };
+  const startScene = () => { let ok = null; try { ok = initScene(); } catch (e) { console.error(e); } if (!ok) showFallback(); };
+  if (typeof THREE !== 'undefined') startScene();
+  else {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    s.onload = () => setTimeout(startScene, 30);
+    s.onerror = showFallback;
+    document.head.appendChild(s);
   }
 
   if (!hasGsap) return;

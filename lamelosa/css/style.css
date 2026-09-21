@@ -363,3 +363,106 @@ html.gl .stage__fallback{display:none}
 @media (max-width:700px){.step--4 .step__title--big{font-size:min(var(--t-h1),16vh)}}
 
 .stage__fallback:not([src]){visibility:hidden}
+
+/* ===== 3D: aparece suave cuando está listo ===== */
+.stage__gl{opacity:0;transition:opacity 1s ease}
+html.gl-ready .stage__gl{opacity:1}
+@media (prefers-reduced-motion:reduce){.stage__gl{opacity:1;transition:none}}
+
+/* ===== MÓVIL (≤700px): ritmo, tamaños y zonas separadas texto / 3D ===== */
+@media (max-width:700px){
+  :root{--gut:1.25rem;--s4:2rem;--s5:3rem;--s6:4.5rem}
+  body{line-height:1.65}
+  .stage__hint{display:none}
+
+  /* hero: texto arriba, 3D en el centro, botón abajo */
+  .step--1{justify-content:flex-start;padding-top:5rem;padding-bottom:2rem}
+  .hero{font-size:clamp(3.6rem,19vw,6.5rem)}
+  .hero__script{position:static;order:-1;font-size:1.35rem;margin:0 0 .35rem;transform:rotate(-3deg);transform-origin:left}
+  .hero__sub{max-width:30ch;margin-top:.9rem;font-size:1rem;line-height:1.5}
+  .hero__cta{margin-top:auto;padding-top:1rem;gap:1.25rem}
+  .sticker{top:41%;bottom:auto;right:.9rem;width:92px}
+
+  /* proceso de la hamburguesa: el texto ocupa su zona y no pisa el 3D */
+  .step--2,.step--3{padding-top:5rem}
+  .step__title{font-size:clamp(2.3rem,11vw,3.5rem);line-height:.9;max-width:none}
+  .step__text{font-size:.98rem;max-width:32ch;margin-top:.7rem}
+  .step--3{justify-content:flex-start;align-items:flex-start;gap:.4rem;padding-bottom:0}
+  .step--3 .step__title--big{font-size:clamp(3rem,15vw,5rem)}
+  .step--4{padding-bottom:1.6rem;gap:.35rem}
+  .step--4 .step__title--big{font-size:clamp(3rem,15vw,4.6rem);max-width:none}
+  .step--4 .step__text{font-size:.98rem}
+  .step__cta{margin-top:.9rem;gap:1.25rem}
+  .tags{--ow:25vw}
+  .tag{font-size:.9rem;line-height:1;max-width:calc(50% - var(--ow) - .4rem)}
+  .tag--l{margin-right:0}
+
+  /* melosa */
+  .melosa{padding:4.5rem var(--gut) 5rem;gap:2.5rem}
+  .melosa__photos{min-height:112vw;margin-bottom:.5rem}
+  .melosa h2{font-size:clamp(3.4rem,17vw,5rem);line-height:.86}
+  .melosa__lead{font-size:1.1rem;line-height:1.6;margin-top:1.4rem}
+  .melosa__ask{margin-top:2.4rem;font-size:1.5rem}
+  .chips{gap:.65rem;margin-top:1.1rem}
+  .chips li{font-size:1.1rem;padding:.6em .9em .55em}
+  .marquee{padding:1.6rem 0 1.2rem}
+
+  /* boinas */
+  .boinas{padding-top:4.5rem}
+  .boinas__head{gap:1.1rem;margin-bottom:2.2rem}
+  .boinas__head h2{font-size:clamp(3.4rem,17vw,5rem)}
+  .boinas__viewport{padding:.5rem 0 3.5rem}
+  .boinas__track{gap:1.1rem}
+  .boina{width:80vw;min-height:0;grid-template-rows:auto auto}
+  .boina__photo{aspect-ratio:4/5}
+  .boina__body{padding:1.25rem 1.25rem 1.6rem}
+  .boina h3{font-size:2.6rem}
+  .boina__desc{font-size:1rem;line-height:1.55}
+  .boina--end{width:78vw}
+
+  /* carta */
+  .ademas{padding:4.5rem var(--gut)}
+  .ademas h2{font-size:clamp(3.2rem,15vw,4.6rem);margin-bottom:2.5rem}
+  .menu > li{padding:1.8rem 0 2.1rem;gap:1.1rem}
+  .menu h3{font-size:2.5rem}
+  .menu__body{gap:1rem}
+  .items{gap:.95rem}
+  .items li{padding:0;border:0;font-size:1rem;line-height:1.4;align-items:flex-start;justify-content:space-between;gap:1rem}
+  .items i{display:none}
+  .items b{flex:none;font-size:1.3rem;padding-top:.05rem}
+  .menu img{width:62%;max-width:260px;margin-top:1.2rem}
+  .carta__more{margin-top:2rem}
+
+  /* casa */
+  .casa{padding:5rem var(--gut);gap:2.2rem}
+  .casa__quote p{font-size:clamp(3.2rem,16vw,4.6rem)}
+  .casa__text{padding:1.25rem;max-width:none;font-size:1.02rem;gap:1.4rem}
+  .palmares li{gap:.9rem;font-size:1rem}
+
+  /* dónde y pie */
+  .donde{padding:5rem var(--gut) 5.5rem}
+  .donde__grid{gap:3rem}
+  .donde h2{font-size:clamp(3.4rem,17vw,5rem)}
+  .btn--xl{width:100%;font-size:1.9rem;margin-top:2rem}
+  .donde address{font-size:1.15rem;gap:.5rem 1rem}
+  .hours div{padding:.8rem 0}
+  .donde__img{margin-top:2.5rem;width:78%}
+  .tel>a{font-size:2.6rem}
+  .ig{font-size:1.5rem}
+  .foot{padding:3.5rem var(--gut) 6rem}
+  .sticky-cta{min-height:56px;font-size:1.35rem}
+}
+
+/* teléfonos bajos (≤700px de alto) */
+@media (max-width:700px) and (max-height:700px){
+  .step--1{padding-top:4.6rem}
+  .hero{font-size:clamp(3.1rem,17vw,4.8rem)}
+  .hero__script{font-size:1.2rem}
+  .hero__sub{font-size:.92rem;max-width:27ch;margin-top:.6rem;line-height:1.45}
+  .hero__cta{gap:.9rem;flex-wrap:nowrap}
+  .hero__cta .btn{padding:.75em 1.1em .7em;font-size:1.2rem}
+  .sticker{top:auto;bottom:24%;right:.6rem;width:76px}
+  .sticker b{font-size:.68rem}
+  .step__title{font-size:clamp(2rem,10vw,2.9rem)}
+  .step--4 .step__title--big,.step--3 .step__title--big{font-size:clamp(2.6rem,13vw,3.8rem)}
+}
