@@ -15,7 +15,7 @@
   const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
   let lenis = null;
-  if (hasGsap && !reduce && typeof Lenis !== 'undefined') {
+  if (hasGsap && !reduce && typeof Lenis !== 'undefined' && !matchMedia('(pointer:coarse)').matches) {
     lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.95 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(t => lenis.raf(t * 1000));
@@ -482,7 +482,7 @@
       frames = 0; ema = 16.7;
     };
 
-    requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('gl-ready')));
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.documentElement.classList.add('gl-ready'); if (window.__loader) window.__loader.finish(); }));
 
     if (reduce) { frame(performance.now() + 100); addEventListener('resize', () => frame(performance.now() + 100)); }
     else if (hasGsap) gsap.ticker.add(() => frame(performance.now()));
@@ -494,13 +494,13 @@
     const fb = $('.stage__fallback[data-src]');
     if (fb) fb.src = fb.dataset.src;
   };
-  const startScene = () => { let ok = null; try { ok = initScene(); } catch (e) { console.error(e); } if (!ok) showFallback(); };
+  const startScene = () => { let ok = null; try { ok = initScene(); } catch (e) { console.error(e); } if (!ok) { showFallback(); if (window.__loader) window.__loader.finish(); } };
   if (typeof THREE !== 'undefined') startScene();
   else {
     const s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    s.onload = () => setTimeout(startScene, 30);
-    s.onerror = showFallback;
+    s.onload = () => { if (window.__loader) window.__loader.set(72); setTimeout(startScene, 30); };
+    s.onerror = () => { showFallback(); if (window.__loader) window.__loader.finish(); };
     document.head.appendChild(s);
   }
 
@@ -552,5 +552,9 @@
     $$('#menu-list > li').forEach(li => gsap.from(li, { opacity: 0, y: 30, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: li, start: 'top 92%' } }));
   }
 
-  addEventListener('load', () => { if (!location.hash) scrollTo(0, 0); ScrollTrigger.refresh(); });
+  addEventListener('load', () => {
+    if (!location.hash) scrollTo(0, 0);
+    ScrollTrigger.refresh();
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
 })();

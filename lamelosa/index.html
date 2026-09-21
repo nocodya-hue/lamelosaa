@@ -2,6 +2,23 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add('is-loading')</script>
+<style>
+#loader{position:fixed;inset:0;z-index:200;background:#141210;color:#FFF6E0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:1.5rem;text-align:center;transition:opacity .6s ease,visibility 0s .6s}
+#loader.done{opacity:0;visibility:hidden;pointer-events:none}
+#loader svg{width:78px;height:auto;fill:none;stroke:#F7B928;stroke-width:2.4;stroke-linejoin:round}
+#loader .ld-name{font:900 2rem/1 'Big Shoulders Display','Arial Narrow',Arial,sans-serif;letter-spacing:.08em}
+#loader .ld-count{font:900 clamp(5rem,26vw,9rem)/.85 'Big Shoulders Display','Arial Narrow',Arial,sans-serif;color:#F7B928;font-variant-numeric:tabular-nums;margin-top:.4rem}
+#loader .ld-count small{font-size:.38em;margin-left:.06em;color:#F3E7CC}
+#loader .ld-bar{width:min(64vw,260px);height:3px;background:rgba(243,231,204,.18);overflow:hidden}
+#loader .ld-bar i{display:block;height:100%;width:0;background:#F7B928}
+#loader .ld-msg{margin:0;font:500 .95rem/1.4 system-ui,-apple-system,Arial,sans-serif;color:#BFB299;min-height:1.4em}
+html.is-loading,html.is-loading body{overflow:hidden}
+html.is-loading .step--1 *{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){#loader{transition:none}}
+</style>
+<noscript><style>#loader{display:none}html.is-loading,html.is-loading body{overflow:auto}html.is-loading .step--1 *{animation-play-state:running!important}</style></noscript>
+
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>La Melosa · Tortillería gourmet en Benimaclet, Valencia</title>
 <meta name="description" content="La Melosa, tortillería gastrobar en Benimaclet (Calle Alboraya, 72, Valencia). Tortilla de patatas melosa desde 12,90 €, melositos, cachopos y cheesecakes caseras. Subcampeones de la Comunitat Valenciana. Reserva mesa.">
@@ -26,7 +43,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Kaushan+Script&family=Schibsted+Grotesk:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Kaushan+Script&family=Schibsted+Grotesk:wght@400;500;700&display=swap"></noscript>
 <script>if("scrollRestoration" in history){history.scrollRestoration="manual"}addEventListener("pageshow",function(){if(!location.hash){scrollTo(0,0)}});</script>
-<link rel="stylesheet" href="css/style.css?v=m5">
+<link rel="stylesheet" href="css/style.css?v=l1">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -53,6 +70,41 @@
 </script>
 </head>
 <body>
+<div id="loader" role="status" aria-live="polite" aria-label="Cargando La Melosa">
+  <svg viewBox="0 0 120 104" aria-hidden="true"><path d="M30 2h60l29 50-29 50H30L1 52z"/><path d="M34 12h52l24 40-24 40H34L10 52z"/></svg>
+  <div class="ld-name">LA MELOSA</div>
+  <div class="ld-count" aria-hidden="true"><span id="ld-num">0</span><small>%</small></div>
+  <div class="ld-bar"><i id="ld-fill"></i></div>
+  <p class="ld-msg" id="ld-msg">Calentando la sartén…</p>
+</div>
+<script>
+(function(){
+  var root=document.documentElement,num=document.getElementById('ld-num'),fill=document.getElementById('ld-fill'),msg=document.getElementById('ld-msg'),ld=document.getElementById('loader');
+  if(!ld)return;
+  var target=6,shown=0,done=false,t0=Date.now();
+  var msgs=[[0,'Calentando la sartén…'],[30,'Pelando las patatas…'],[60,'Batiendo los huevos…'],[88,'Dando la vuelta…']];
+  function set(n){if(n>target)target=Math.min(100,n)}
+  function finish(){
+    if(done)return;done=true;num.textContent='100';fill.style.width='100%';
+    setTimeout(function(){ld.classList.add('done');root.classList.remove('is-loading');setTimeout(function(){if(ld.parentNode)ld.parentNode.removeChild(ld)},800)},220);
+  }
+  function tick(){
+    if(done)return;
+    var creep=Math.min(88,target+((Date.now()-t0)/1000)*1.6);
+    var goal=target>=100?100:Math.max(target,Math.min(creep,target+14));
+    shown+=(goal-shown)*0.14+0.04;if(shown>goal)shown=goal;
+    var v=Math.floor(shown);num.textContent=v;fill.style.width=shown+'%';
+    for(var i=0;i<msgs.length;i++){if(v>=msgs[i][0])msg.textContent=msgs[i][1]}
+    if(target>=100&&shown>=99.4){finish();return}
+    requestAnimationFrame(tick);
+  }
+  window.__loader={set:set,finish:function(){set(100)}};
+  document.addEventListener('DOMContentLoaded',function(){set(28)});
+  window.addEventListener('load',function(){set(52)});
+  setTimeout(function(){set(100)},9000);   /* seguro: nunca bloquea más de 9 s */
+  requestAnimationFrame(tick);
+})();
+</script>
 <a class="skip" href="#carta">Saltar al contenido</a>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -315,7 +367,7 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script>if(location.protocol==='file:'){document.write('<script src="js/inline-assets.js?v=m5"><\/script>')}</script>
-<script defer src="js/main.js?v=m5"></script>
+<script>if(location.protocol==='file:'){document.write('<script src="js/inline-assets.js?v=l1"><\/script>')}</script>
+<script defer src="js/main.js?v=l1"></script>
 </body>
 </html>
